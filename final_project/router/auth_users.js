@@ -5,7 +5,7 @@ const regd_users = express.Router();
 
 let users = [];
 
-const isValid = (username) => { //returns boolean
+const isValid = (username) => {
     let userswithsamename = users.filter((user) => {
         return user.username === username;
     });
@@ -16,7 +16,7 @@ const isValid = (username) => { //returns boolean
     }
 }
 
-const authenticatedUser = (username, password) => { //returns boolean
+const authenticatedUser = (username, password) => {
 //write code to check if username and password match the one we have in records.
     // Filter the users array for any user with the same username and password
     let validusers = users.filter((user) => {
@@ -28,7 +28,6 @@ const authenticatedUser = (username, password) => { //returns boolean
     } else {
         return false;
     }
-
 }
 
 //only registered users can login
@@ -57,13 +56,12 @@ regd_users.post("/login", (req, res) => {
     } else {
         return res.status(208).json({message: "Invalid Login. Check username and password"});
     }
-    //return res.status(300).json({message: "Yet to be implemented"});
+
 });
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
     //Write your code here
-
     const isbn = req.params.isbn;
     const reviewContent = req.query.review; // Review text from URL
 
@@ -72,7 +70,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
         return res.status(403).json({message: "User not logged in"});
     }
 
-    const username = req.session.authorization.username; // User from session
+    const username = req.session.authorization.username;  // User from session
 
 
     if (books[isbn]) {
@@ -88,17 +86,13 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     }
 
     return res.status(404).json({message: "ISBN not found"});
-
-    //return res.status(300).json({message: "Yet to be implemented"});
 });
 
 //Delete a book review
 
 regd_users.delete("/auth/review/:isbn", (req, res) => {
-    //Write your code here
 
     const isbn = req.params.isbn;
-    //const reviewContent = req.query.review; // Review text from URL
     const book = books[isbn];
 
     if (!book) {
@@ -123,8 +117,6 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
     return res.status(200).json({message: "Review deleted successfully", reviews: book.reviews})
 
     // return res.status(404).json({ message: "ISBN not found" });
-
-    // return res.status(300).json({message: "Yet to be implemented"});
 });
 
 
